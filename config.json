@@ -1,0 +1,4 @@
+{
+    "default_max_retries": 5,
+    "cloudflared_path": "cloudflared.exe"
+}

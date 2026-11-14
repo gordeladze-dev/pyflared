@@ -1,0 +1,16 @@
+{
+  "type": "object",
+  "properties": {
+    "max_retries": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Maximum number of retries that the tunnel will attempt before giving up."
+    },
+    "cloudflared_path": {
+      "type": "string",
+      "description": "Path to the cloudflared executable."
+    }
+  },
+  "required": ["max_retries", "retry_delay", "cloudflared_path"],
+  "additionalProperties": false
+}
