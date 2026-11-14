@@ -1,4 +1,4 @@
-from main import (
+from pyflared.main import (
     BinaryNotFoundError,
     LogLevel,
     PortError,
