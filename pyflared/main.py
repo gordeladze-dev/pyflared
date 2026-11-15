@@ -11,12 +11,12 @@ import subprocess as sp
 from typing import Literal
 from pathlib import Path
 
-_BASE_DIR = Path(__file__).parent
-_CONFIG_PATH = _BASE_DIR / "config.json"
-CONFIG: dict = json.loads(_CONFIG_PATH.read_text(encoding="utf-8")) if _CONFIG_PATH.exists() else {} # stop windows cp1252 shenanigans with encode=...
+BASE_DIR = Path(__file__).parent
+CONFIG_PATH = BASE_DIR / "config.json"
+CONFIG: dict = json.loads(CONFIG_PATH.read_text(encoding="utf-8")) if CONFIG_PATH.exists() else {} # stop windows cp1252 shenanigans with encode=...
 
-_TRYCLOUDFLARE_RE = re.compile(r"https://[a-zA-Z0-9-]+\.trycloudflare\.com")
-_TRYCLOUDFLARE_TOKENIZED_RE = re.compile(r"Registered tunnel connection")
+TRYCLOUDFLARE_RE = re.compile(r"https://[a-zA-Z0-9-]+\.trycloudflare\.com")
+TRYCLOUDFLARE_TOKENIZED_RE = re.compile(r"Registered tunnel connection")
 
 # CONFIGURATION
 
@@ -85,7 +85,7 @@ class Tunnel:
     def _resolve_binary_path(self, custom_path: str) -> Path:
         """Resolves the path to the cloudflared binary, erroring accordingly."""
 
-        path = _BASE_DIR / custom_path
+        path = BASE_DIR / custom_path
 
         if not path.is_file():
             raise BinaryNotFoundError(f"Could not find cloudflared at: {path}")
@@ -160,7 +160,7 @@ class Tunnel:
 
         threading.Thread(target=_reader, daemon=True).start()
 
-        PATTERN = _TRYCLOUDFLARE_TOKENIZED_RE if self._token else _TRYCLOUDFLARE_RE
+        PATTERN = TRYCLOUDFLARE_TOKENIZED_RE if self._token else TRYCLOUDFLARE_RE
         DEADLINE = time.monotonic() + self._timeout # you learn alot doing random projects. didnt even realise monotonic was a thing until i needed it for this
 
         while time.monotonic() < DEADLINE:
